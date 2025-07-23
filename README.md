@@ -21,7 +21,7 @@ yarn owner:lock:sepolia
 두 명의 서명자의 승인을 필요로 하는 Gnosis Safe 멀티시그 컨트랙트를 통해 USER2 주소로 100 MLK 토큰을 전송하는 트랜잭션입니다.
 ```
 yarn transfer:admin:sepolia
-yarn transfer:user:sepol
+yarn transfer:user:sepolia
 ```
   
 ## Run with STS(Safe Transaction Service)
