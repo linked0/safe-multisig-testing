@@ -20,43 +20,42 @@ yarn owner:lock:sepolia
 ## Scenario Overview
 
 ### Description
-1. 어드민(승인자)이 토큰을 유저2에게 전송하는 트랜잭션을 만들고 본인이 승인
-2. 유저1(승인자)에게 승인 요청
-3. 유저1이 승인
-4. 유저2의 지갑에 토큰이 최종 전달됨
+1. 사이너1(승인자)이 토큰을 유저2에게 전송하는 트랜잭션을 만들고 본인이 승인
+2. 사이너2(승인자)에게 승인 요청
+3. 사이너2이 승인
+4. 유저의 지갑에 토큰이 최종 전달됨
 
 ```mermaid
   graph TD
       subgraph "Blockchain Contracts"
-          LockContract[Lock ERC20 Contract]
+          TokenVesting[Token Vesting Contract]
           GnosisSafe[Gnosis Safe Multisig]
       end
 
-
       subgraph "External Actors / Wallets"
-          AdminWallet(Admin Wallet)
-          User1Wallet(User1 Wallet)
-          User2Address(User2 Address)
+          Signer1Wallet(Signer1 Wallet)
+          Signer2Wallet(Signer2 Wallet)
+          UserAddress(User Address)
       end
 
-      AdminWallet -- 1.Proposes Tx (call Lock.transferApproved) --> GnosisSafe
-      AdminWallet -- 2.Signs Tx --> GnosisSafe
+      Signer1Wallet -- 1.Proposes Tx (call Vesting.transferAlloc) --> GnosisSafe
+      Signer1Wallet -- 2.Signs Tx --> GnosisSafe
 
 
-      User1Wallet -- 3.Signs Tx --> GnosisSafe
+      Signer2Wallet -- 3.Signs Tx --> GnosisSafe
 
-      GnosisSafe -- 4.Executes Tx (calls Lock.transferApproved) --> LockContract
+      GnosisSafe -- 4.Executes Tx (calls Vesting.transferAlloc) --> TokenVesting
 
-      LockContract -- 5.Transfers MLT Tokens --> User2Address
+      TokenVesting -- 5.Transfers MLT Tokens --> UserAddress
 
-      GnosisSafe -- "Is Owner Of" --> LockContract
+      GnosisSafe -- "Is Owner Of" --> TokenVesting
 
 
-      style LockContract fill:#f9f,stroke:#333,stroke-width:2px
+      style TokenVesting fill:#f9f,stroke:#333,stroke-width:2px
       style GnosisSafe fill:#ccf,stroke:#333,stroke-width:2px
-      style AdminWallet fill:#afa,stroke:#333,stroke-width:2px
-      style User1Wallet fill:#afa,stroke:#333,stroke-width:2px
-      style User2Address fill:#ffc,stroke:#333,stroke-width:2px
+      style Signer1Wallet fill:#afa,stroke:#333,stroke-width:2px
+      style Signer2Wallet fill:#afa,stroke:#333,stroke-width:2px
+      style UserAddress fill:#ffc,stroke:#333,stroke-width:2px
 
 ```
 
